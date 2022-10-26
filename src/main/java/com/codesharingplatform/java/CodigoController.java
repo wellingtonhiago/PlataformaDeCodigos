@@ -15,8 +15,7 @@ public class CodigoController {
     private final List<ApiCodigos> listaApi = List.of();
 
     @GetMapping("/api/code/{i}")
-    public ApiCodigos apiCodigos(@PathVariable int i) {
-
+    public ApiCodigos apiCodigo(@PathVariable int i) {
         return listaApi.get(i-1);
     }
 
@@ -39,14 +38,25 @@ public class CodigoController {
     }
 
     @PostMapping("/api/code/new")
-    public String postCodigo(@RequestBody ApiCodigos codigo) {
+    public Id postCodigo(@RequestBody ApiCodigos codigo) {
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         listaApi.add(codigo);
         int i = listaApi.indexOf(codigo);
         listaApi.get(i).setDate(localDateTime.format(formatter));
         listaApi.get(i).setCode(codigo.getCode());
-        return "{}";
+        Id id = new Id();
+        return id;
+    }
+
+    @GetMapping("/api/code/latest")
+    public ApiCodigos apiCodigos() {
+        // TODO retornar os 10 últimos da lista em JSON
+    };
+
+    @GetMapping("/code/latest")
+    public ModelAndView codigos() {
+        // TODO retornar os 10 últimos da lista no html
     }
 
 }
