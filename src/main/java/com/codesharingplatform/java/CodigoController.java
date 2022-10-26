@@ -12,22 +12,21 @@ import java.util.List;
 @RestController
 public class CodigoController {
 
-    private final String codigo = "public static void main(String[] args) {\n    SpringApplication.run(CodeSharingPlatform.class, args);\n}";
+    private final List<ApiCodigos> listaApi = List.of();
 
-    private final List<ApiCodigos> listaApi = List.of(new ApiCodigos(codigo));
+    @GetMapping("/api/code/{i}")
+    public ApiCodigos apiCodigos(@PathVariable int i) {
 
-    @GetMapping("/api/code")
-    public ApiCodigos apiCodigos() {
-        return listaApi.get(0);
+        return listaApi.get(i-1);
     }
 
-    @GetMapping("/code")
-    public ModelAndView codigo() {
+    @GetMapping("/code/{i}")
+    public ModelAndView codigo(@PathVariable int i) {
         ModelAndView mv = new ModelAndView();
 
         mv.setViewName("codigo");
-        mv.addObject("codigoData", listaApi.get(0).getDate());
-        mv.addObject("codigo", listaApi.get(0).getCode());
+        mv.addObject("codigoData", listaApi.get(i-1).getDate());
+        mv.addObject("codigo", listaApi.get(i-1).getCode());
 
         return mv;
     }
@@ -43,8 +42,10 @@ public class CodigoController {
     public String postCodigo(@RequestBody ApiCodigos codigo) {
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        listaApi.get(0).setDate(localDateTime.format(formatter));
-        listaApi.get(0).setCode(codigo.getCode());
+        listaApi.add(codigo);
+        int i = listaApi.indexOf(codigo);
+        listaApi.get(i).setDate(localDateTime.format(formatter));
+        listaApi.get(i).setCode(codigo.getCode());
         return "{}";
     }
 
