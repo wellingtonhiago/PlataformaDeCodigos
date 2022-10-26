@@ -1,5 +1,6 @@
 package com.codesharingplatform.java;
 
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,9 +32,19 @@ public class CodigoController {
         return mv;
     }
 
+    @GetMapping("/code/new")
+    public ModelAndView newCodigo() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("novoCodigo");
+        return mv;
+    }
+
     @PostMapping("/api/code/new")
-    public String postCodigo(@RequestBody String codigo) {
-        listaApi.get(0).setCode(codigo);
+    public String postCodigo(@RequestBody ApiCodigos codigo) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        listaApi.get(0).setDate(localDateTime.format(formatter));
+        listaApi.get(0).setCode(codigo.getCode());
         return "{}";
     }
 
