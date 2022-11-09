@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latest</title>
+</head>
+<body>
+<#list codigos as codigo>
+<span id="load_date">${codigo.getDate()}</span>
+<pre id="code_snippet">${codigo.getCode()}</pre>
+</#list>
+</body>
+</html>

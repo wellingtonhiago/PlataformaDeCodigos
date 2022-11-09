@@ -14,4 +14,9 @@ public class Id {
     public static void setId(int id) {
         Id.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "{\"id\":" + "\"" + getId() + "\"" + "}";
+    }
 }
